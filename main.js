@@ -13,7 +13,6 @@ for (i = 0; i < 50; i++){
     }
     game.push(row);
 }
-
 // draw cell grid
 for (i = 0; i < game.length; i++){
     for (j = 0; j < game[i].length; j++){
@@ -27,6 +26,14 @@ for (i = 0; i < game.length; i++){
     }
 }
 
+let game2 = []
+for (i = 0; i < 50; i++){
+    let row = [];
+    for (j = 0; j < 50; j++){
+        row.push(0);
+    }
+    game2.push(row);
+}
 // loop through each cell and check how many naighbours alive, update every 100ms
 setInterval(() => {
 for (i = 0; i < game.length; i++){
@@ -95,21 +102,33 @@ for (i = 0; i < game.length; i++){
 
         // change cell status
         if (game[i][j] === 1 && alive < 2){
-            game[i][j] = 0;
+            game2[i][j] = 0;
         }
         else if (game[i][j] === 1 && alive === 2 || game[i][j] === 1 && alive === 3){
-            game[i][j] = 1;
+            game2[i][j] = 1;
         }
         else if (game[i][j] === 1 && alive > 3){
-            game[i][j] = 0;
+            game2[i][j] = 0;
         }
         else if (game[i][j] === 0 && alive === 3){
-            game[i][j] = 1;
+            game2[i][j] = 1;
         }
-        if (game[i][j] === 1){
+    }
+}
+for (i = 0; i < game2.length; i++){
+    for (j = 0; j < game2[i].length; j++){
+        if (game2[i][j] === 1){
             document.getElementById(`cell${i}${j}`).style.backgroundColor = 'black';
         }else{
             document.getElementById(`cell${i}${j}`).style.backgroundColor = 'white';
         }
     }
-}}, 100)
+}
+
+game = JSON.parse(JSON.stringify(game2));
+for (i = 0; i < game2.length; i++){
+    for (j = 0; j < game2[i].length; j++){
+        game2[i][j] = 0;
+    }
+}
+}, 100)
