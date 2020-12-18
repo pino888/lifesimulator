@@ -12,6 +12,7 @@ let genCounter = 0;
 let game = [];
 const auto = () => {
     game = [];
+    genCounter = 0;
     for (i = 0; i < 50; i++){
         let row = [];
         for (j = 0; j < 50; j++){
@@ -20,9 +21,10 @@ const auto = () => {
         game.push(row);
     }
 }
-auto();
+
 const glider = () =>{
     game = [];
+    genCounter = 0;
     for (i = 0; i < 50; i++){
         let row = [];
         for (j = 0; j < 50; j++){
@@ -75,19 +77,36 @@ const glider = () =>{
 autoButton.onmouseup = auto;
 gliderButton.onmouseup = glider;
 
-// draw cell grid
-for (i = 0; i < game.length; i++){
-    for (j = 0; j < game[i].length; j++){
-        let cell = document.createElement("div");
-        cell.classList.add("cell");
-        cell.id = `cell-${i}-${j}`;
-        cell.style.width = "10px";
-        cell.style.height = "10px";
-        cell.style.backgroundColor = "yellow";
-        content.appendChild(cell);
+auto();
+// draw cell grid depending on screen size
+if(window.matchMedia("(max-width: 480px)").matches){
+    content.style.width = '300px'
+    content.style.height = '300px'
+    for (i = 0; i < game.length; i++){
+        for (j = 0; j < game[i].length; j++){
+            let cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.id = `cell-${i}-${j}`;
+            cell.style.width = "6px";
+            cell.style.height = "6px";
+            cell.style.backgroundColor = "yellow";
+            content.appendChild(cell);
+        }
     }
+}else{
+    for (i = 0; i < game.length; i++){
+        for (j = 0; j < game[i].length; j++){
+            let cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.id = `cell-${i}-${j}`;
+            cell.style.width = "10px";
+            cell.style.height = "10px";
+            cell.style.backgroundColor = "yellow";
+            content.appendChild(cell);
+        }
+    }  
 }
-
+// color cells
 for (i = 0; i < game.length; i++){
     for (j = 0; j < game[i].length; j++){
         if (game[i][j] == 1){
@@ -107,6 +126,7 @@ for (i = 0; i < 50; i++){
     }
     game2.push(row);
 }
+
 // loop through each cell and check how many naighbours alive, update every 100ms
 setInterval(() => {
 genCounter++;
